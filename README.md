@@ -12,7 +12,7 @@ AgriAI is an AI-powered farming assistant that helps farmers get real-time recom
 
 | Hero + Dashboard | Login | Offline / SOS |
 |---|---|---|
-| _add screenshot_ | _add screenshot_ | _add screenshot_ |
+| _add screenshot_ | _add screenshot_ | _add screenshot_ .
 
 ---
 
@@ -74,27 +74,7 @@ Social proof ("Trusted by 50,000+ Farmers") plus a security badge — included b
 - **Frontend:** HTML5, CSS3, vanilla JavaScript
 - **Icons:** Font Awesome (via CDN)
 - **Fonts:** Google Fonts — Poppins (display), Inter (body)
-- **No build step required** — static file, opens directly in browser
-
----
-
-## 🚀 Getting Started
-
-Clone the repo and open the file directly — no dependencies to install.
-
-```bash
-git clone https://github.com/<your-username>/agriai.git
-cd agriai
-```
-
-Then simply open `index.html` in your browser, or serve it locally:
-
-```bash
-# Python 3
-python -m http.server 8000
-```
-
-Visit `http://localhost:8000` in your browser.
+- **No build step required** — static file, opens directly in browser.
 
 ---
 
@@ -104,21 +84,14 @@ Visit `http://localhost:8000` in your browser.
 agriai/
 ├── index.html        # Main interface (hero, dashboard, login, offline/SOS cards)
 ├── README.md          # This file
-└── assets/            # (optional) place your own hero background photo here
+└── assets/            * Placing my own hero showcase preview.
 ```
 
 ---
 
 ## 🎨 Customization
 
-The hero background currently uses a CSS gradient in place of a real photo. To use your own farm/farmer photo:
-
-```css
-.hero {
-  background:
-    linear-gradient(180deg, rgba(20,40,20,0.55) 0%, rgba(20,50,25,0.15) 30%, rgba(246,243,234,0) 55%),
-    url('assets/your-photo.jpg') center/cover no-repeat;
-}
+The hero background currently uses a CSS gradient.
 ```
 
 All colors are defined as CSS custom properties at the top of the stylesheet (`:root`), so the palette can be re-themed in one place.
