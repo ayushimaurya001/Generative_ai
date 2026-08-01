@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AgriAI — Smart Agriculture Advisor</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep-green:#134E2B;
+    --mid-green:#1F7A45;
+    --leaf-green:#2E9E5B;
+    --cream:#F6F3EA;
+    --card-white:#FFFFFF;
+    --text-dark:#1E2A22;
+    --text-muted:#6B7970;
+    --orange:#D8481F;
+    --peach-bg:#FDEDE3;
+    --sky-blue:#3E8FBF;
+    --hair:#E7E2D4;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    font-family:'Inter', sans-serif;
+    background:#E9E7E0;
+    display:flex;
+    justify-content:center;
+    padding:32px 12px;
+    color:var(--text-dark);
+  }
+  .phone{
+    width:420px;
+    max-width:100%;
+    background:var(--cream);
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 30px 60px rgba(0,0,0,0.25);
+  }
+
+  .status-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 20px 4px;
+    font-weight:600;
+    font-size:15px;
+    position:relative;
+    z-index:5;
+    color:#fff;
+  }
+  .status-bar i{ font-size:13px; margin-left:5px; }
+
+  .hero{
+    position:relative;
+    padding:0 18px 26px;
+    background:
+      linear-gradient(180deg, rgba(20,40,20,0.55) 0%, rgba(20,50,25,0.15) 30%, rgba(246,243,234,0) 55%),
+      linear-gradient(160deg, #cfe3b0 0%, #8fbf6a 35%, #4f8c4a 65%, #2c5f3a 100%);
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image: repeating-linear-gradient(100deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 40px);
+    pointer-events:none;
+  }
+  .hero-top{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    padding-top:8px;
+    position:relative;
+    z-index:3;
+    flex-wrap:wrap;
+  }
+  .chip{
+    background:#fff;
+    border-radius:14px;
+    padding:8px 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    box-shadow:0 6px 16px rgba(0,0,0,0.12);
+    font-size:13px;
+  }
+  .chip .temp{ font-weight:700; font-size:14px; line-height:1.1; }
+  .chip .sub{ font-size:11px; color:var(--text-muted); }
+  .chip i.fa-sun{ color:#F2A93B; font-size:18px; }
+
+  .lang-chip{ position:relative; cursor:pointer; user-select:none; }
+  .lang-chip .lang-main{ display:flex; align-items:center; gap:6px; font-weight:600; }
+  .lang-menu{
+    position:absolute; top:110%; right:0;
+    background:#fff; border-radius:12px; box-shadow:0 10px 24px rgba(0,0,0,0.15);
+    padding:6px 0; min-width:120px; display:none; z-index:10;
+  }
+  .lang-menu.open{ display:block; }
+  .lang-menu div{ padding:8px 16px; font-size:13px; color:var(--text-dark); }
+  .lang-menu div:hover{ background:var(--cream); }
+
+  .brand{ position:relative; z-index:3; margin-top:26px; }
+  .logo-row{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  .logo-icon{
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(255,255,255,0.9);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .logo-icon i{ color:var(--mid-green); font-size:20px; }
+  .brand h1{
+    font-family:'Poppins',sans-serif;
+    font-size:34px; font-weight:800; color:#fff;
+    text-shadow:0 2px 10px rgba(0,0,0,0.25);
+  }
+  .brand h1 span{ color:#BFF0A0; }
+  .brand h3{
+    font-family:'Poppins',sans-serif;
+    font-weight:600; font-size:16px; color:#EAF6E4; margin-bottom:10px;
+    text-shadow:0 1px 6px rgba(0,0,0,0.25);
+  }
+  .brand p{
+    font-size:13.5px; line-height:1.55; color:#F1F5EC; max-width:280px;
+    text-shadow:0 1px 6px rgba(0,0,0,0.2);
+  }
+  .brand p b{ color:#D9F5B0; font-weight:700; }
+
+  .feature-cards{
+    position:relative; z-index:3;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
+    margin-top:22px;
+  }
+  .feature-card{
+    background:rgba(255,255,255,0.95);
+    border-radius:14px;
+    padding:12px 6px;
+    text-align:center;
+    box-shadow:0 8px 18px rgba(0,0,0,0.12);
+  }
+  .feature-card .ic{
+    width:34px; height:34px; border-radius:50%;
+    background:var(--cream);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 8px;
+  }
+  .feature-card .ic i{ color:var(--mid-green); font-size:14px; }
+  .feature-card h4{ font-size:11px; font-weight:700; margin-bottom:3px; line-height:1.2; }
+  .feature-card p{ font-size:9px; color:var(--text-muted); line-height:1.3; }
+
+  .voice-btn{
+    position:relative; z-index:3;
+    margin-top:16px;
+    background:var(--deep-green);
+    border-radius:16px;
+    padding:12px 16px;
+    display:flex; align-items:center; justify-content:space-between;
+    box-shadow:0 10px 22px rgba(0,0,0,0.25);
+  }
+  .voice-btn .left{ display:flex; align-items:center; gap:10px; color:#fff; font-weight:600; font-size:14px; }
+  .voice-btn .mic{
+    width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center;
+    animation:pulse 2s infinite;
+  }
+  .voice-btn .tag{
+    background:rgba(255,255,255,0.15); color:#DCEFD2; font-size:10.5px;
+    padding:4px 10px; border-radius:999px;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(255,255,255,0.35); }
+    70%{ box-shadow:0 0 0 10px rgba(255,255,255,0); }
+    100%{ box-shadow:0 0 0 0 rgba(255,255,255,0); }
+  }
+
+  .section{ padding:20px 18px 0; }
+  .card{
+    background:var(--card-white);
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.05);
+  }
+  .card-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .card-header h3{ font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
+  .live-dot{ width:7px; height:7px; border-radius:50%; background:var(--leaf-green); display:inline-block; position:relative; }
+  .live-dot::after{
+    content:""; position:absolute; inset:-4px; border-radius:50%;
+    border:2px solid var(--leaf-green); opacity:0.4; animation:ring 1.6s infinite;
+  }
+  @keyframes ring{ 0%{ transform:scale(0.6); opacity:0.6;} 100%{ transform:scale(1.6); opacity:0;} }
+  .view-link{ font-size:12.5px; color:var(--mid-green); font-weight:600; text-decoration:none; display:flex; align-items:center; gap:4px; }
+
+  .stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .stat-box{
+    background:var(--cream); border-radius:14px; padding:12px; position:relative; overflow:hidden; min-height:96px;
+  }
+  .stat-box .label{ font-size:11.5px; font-weight:600; display:flex; align-items:center; gap:6px; margin-bottom:8px; color:var(--text-dark); }
+  .stat-box .label i{ font-size:11px; }
+  .stat-box .value{ font-family:'Poppins',sans-serif; font-size:20px; font-weight:700; }
+  .stat-box .desc{ font-size:11px; color:var(--text-muted); margin-top:2px; }
+  .stat-box.alert{ background:var(--peach-bg); }
+  .stat-box.alert .value{ font-size:13.5px; color:var(--orange); font-weight:700; line-height:1.3; }
+
+  .welcome h2{ font-size:19px; font-weight:800; font-family:'Poppins',sans-serif; margin-bottom:2px; }
+  .welcome p.sub{ font-size:12.5px; color:var(--text-muted); margin-bottom:16px; }
+  .input-group{
+    display:flex; align-items:center; gap:10px;
+    border:1.5px solid var(--hair); border-radius:12px; padding:12px 14px; margin-bottom:12px;
+  }
+  .input-group i{ color:var(--text-muted); font-size:14px; width:16px; text-align:center; }
+  .input-group input{ border:none; outline:none; flex:1; font-size:13.5px; font-family:'Inter',sans-serif; background:transparent; }
+  .input-group i.toggle{ cursor:pointer; }
+  .forgot{ text-align:right; font-size:12px; color:var(--mid-green); font-weight:600; margin-bottom:16px; cursor:pointer; }
+  .btn-primary{
+    width:100%; background:var(--deep-green); color:#fff; border:none; border-radius:999px;
+    padding:14px; font-size:14.5px; font-weight:700; font-family:'Inter',sans-serif;
+    display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
+  }
+  .divider{ display:flex; align-items:center; gap:10px; margin:16px 0; font-size:11.5px; color:var(--text-muted); }
+  .divider::before, .divider::after{ content:""; flex:1; height:1px; background:var(--hair); }
+  .oauth-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .oauth-btn{
+    border:1.5px solid var(--hair); border-radius:12px; padding:11px; display:flex; align-items:center;
+    justify-content:center; gap:8px; font-size:13px; font-weight:600; cursor:pointer; background:#fff;
+  }
+  .create-acc{ text-align:center; font-size:12.5px; color:var(--text-muted); }
+  .create-acc b{ color:var(--mid-green); cursor:pointer; }
+
+  .side-cards{ display:flex; flex-direction:column; gap:14px; }
+  .mini-card{ border-radius:16px; padding:16px; }
+  .mini-card.green{ background:#EAF4E6; }
+  .mini-card.peach{ background:var(--peach-bg); }
+  .mini-card h4{ font-size:14.5px; font-weight:700; display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .mini-card h4 .badge-red{ border:1.5px solid var(--orange); color:var(--orange); font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:6px; }
+  .badge-pill{ background:#D6ECCB; color:var(--mid-green); font-size:10.5px; font-weight:700; padding:3px 10px; border-radius:999px; display:inline-block; margin-bottom:8px; }
+  .mini-card p{ font-size:12px; line-height:1.55; color:var(--text-dark); opacity:0.85; margin-bottom:10px; }
+  .mini-link{ font-size:12.5px; font-weight:700; color:var(--orange); display:flex; align-items:center; gap:5px; cursor:pointer; }
+  .mini-card.green .mini-link{ color:var(--mid-green); }
+
+  .trust{
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; border-radius:16px; padding:14px 16px; margin-top:16px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.05);
+  }
+  .avatars{ display:flex; align-items:center; }
+  .avatars .av{
+    width:34px; height:34px; border-radius:50%; border:2px solid #fff;
+    margin-left:-10px; background:linear-gradient(135deg,#9CC98A,#4F8C4A);
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700;
+  }
+  .avatars .av:first-child{ margin-left:0; }
+  .trust-text b{ display:block; font-size:13px; }
+  .trust-text span{ font-size:11px; color:var(--text-muted); }
+  .trust-left{ display:flex; align-items:center; gap:12px; }
+  .shield{ color:var(--mid-green); font-size:20px; }
+
+  .bottom-tags{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+    margin:18px 0 22px; text-align:center;
+  }
+  .bottom-tags div{ font-size:10.5px; color:var(--text-muted); }
+  .bottom-tags i{ display:block; font-size:16px; color:var(--mid-green); margin-bottom:6px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="hero">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div><i class="fa-solid fa-signal"></i><i class="fa-solid fa-wifi"></i><i class="fa-solid fa-battery-full"></i></div>
+    </div>
+
+    <div class="hero-top">
+      <div class="chip">
+        <i class="fa-solid fa-sun"></i>
+        <div><div class="temp">22°C</div><div class="sub">Sunny</div></div>
+      </div>
+      <div class="chip lang-chip" onclick="document.getElementById('langMenu').classList.toggle('open')">
+        <div class="lang-main"><i class="fa-solid fa-globe"></i> English <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+        <div class="lang-menu" id="langMenu">
+          <div>English</div>
+          <div>हिन्दी</div>
+          <div>भोजपुरी</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand">
+      <div class="logo-row">
+        <div class="logo-icon"><i class="fa-solid fa-seedling"></i></div>
+      </div>
+      <h1>Agri<span>AI</span></h1>
+      <h3>Smart Agriculture Advisor</h3>
+      <p>Create an AI Farming Assistant for <b>Crop, Disease, Fertilizer</b> and <b>Weather</b> Recommendation.</p>
+    </div>
+
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="ic"><i class="fa-solid fa-seedling"></i></div>
+        <h4>Crop AI</h4>
+        <p>Best crop for higher yield</p>
+      </div>
+      <div class="feature-card">
+        <div class="ic"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <h4>Disease Detection</h4>
+        <p>Identify &amp; protect your crops</p>
+      </div>
+      <div class="feature-card">
+        <div class="ic"><i class="fa-solid fa-flask"></i></div>
+        <h4>Fertilizer Advisor</h4>
+        <p>Right fertilizer at right time</p>
+      </div>
+      <div class="feature-card">
+        <div class="ic"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+        <h4>Weather Insights</h4>
+        <p>Accurate forecast &amp; alerts</p>
+      </div>
+    </div>
+
+    <div class="voice-btn">
+      <div class="left">
+        <div class="mic"><i class="fa-solid fa-microphone" style="color:#fff;font-size:13px;"></i></div>
+        Ask AI in Hindi
+      </div>
+      <div class="tag">Voice Assistant</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="card">
+      <div class="card-header">
+        <h3>Live Farm Overview <span class="live-dot"></span> Live</h3>
+        <a class="view-link" href="#">View Dashboard <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="label"><i class="fa-solid fa-leaf" style="color:var(--mid-green)"></i> Crop Health</div>
+          <div class="value">92%</div>
+          <div class="desc">Excellent</div>
+        </div>
+        <div class="stat-box">
+          <div class="label"><i class="fa-solid fa-sun" style="color:#F2A93B"></i> Weather</div>
+          <div class="value">22°C</div>
+          <div class="desc">Sunny</div>
+        </div>
+        <div class="stat-box">
+          <div class="label"><i class="fa-solid fa-droplet" style="color:var(--sky-blue)"></i> Soil Moisture</div>
+          <div class="value">68%</div>
+          <div class="desc">Good</div>
+        </div>
+        <div class="stat-box alert">
+          <div class="label"><i class="fa-solid fa-bell" style="color:var(--orange)"></i> AI Alert</div>
+          <div class="value">Irrigate tomorrow morning</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="card welcome">
+      <h2>Welcome Back 👋</h2>
+      <p class="sub">Sign in to continue to your account</p>
+
+      <div class="input-group">
+        <i class="fa-regular fa-user"></i>
+        <input type="text" placeholder="Email or Phone Number" />
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="pwd" placeholder="Password" />
+        <i class="fa-regular fa-eye toggle" id="pwdToggle" onclick="togglePwd()"></i>
+      </div>
+      <div class="forgot">Forgot Password?</div>
+
+      <button class="btn-primary">Sign In <i class="fa-solid fa-arrow-right"></i></button>
+
+      <div class="divider">or continue with</div>
+      <div class="oauth-row">
+        <div class="oauth-btn"><i class="fa-brands fa-google" style="color:#EA4335"></i> Google</div>
+        <div class="oauth-btn"><i class="fa-brands fa-apple"></i> Apple</div>
+      </div>
+      <div class="create-acc">Don't have an account? <b>Create Account</b></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="side-cards">
+      <div class="mini-card green">
+        <h4>Poor Network? <i class="fa-solid fa-wifi" style="color:var(--mid-green)"></i></h4>
+        <span class="badge-pill">Low Connectivity Optimized</span>
+        <p>Continue in Offline Mode. Your saved crop records, AI recommendations, and previous reports remain available.<br><br>New data syncs automatically when you're back online.</p>
+        <div class="mini-link">Continue Offline <i class="fa-solid fa-cloud-arrow-up"></i></div>
+      </div>
+
+      <div class="mini-card peach">
+        <h4>Need urgent farming help? <span class="badge-red">SOS</span></h4>
+        <p>Tap once to get instant AI guidance — even in low-connectivity mode using your last synced data.</p>
+        <div class="mini-link">Emergency AI Assistance <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="trust">
+      <div class="trust-left">
+        <div class="avatars">
+          <div class="av">R</div>
+          <div class="av">S</div>
+          <div class="av">M</div>
+          <div class="av">K</div>
+        </div>
+        <div class="trust-text">
+          <b>Trusted by 50,000+ Farmers</b>
+          <span>Across Rural Communities</span>
+        </div>
+      </div>
+      <i class="fa-solid fa-shield-halved shield"></i>
+    </div>
+
+    <div class="bottom-tags">
+      <div><i class="fa-solid fa-map-location-dot"></i>Designed for Rural India</div>
+      <div><i class="fa-solid fa-lock"></i>Secure &amp; Private</div>
+      <div><i class="fa-solid fa-microchip"></i>AI Powered</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function togglePwd(){
+    const pwd = document.getElementById('pwd');
+    const icon = document.getElementById('pwdToggle');
+    if(pwd.type === 'password'){
+      pwd.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      pwd.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
+  document.addEventListener('click', function(e){
+    const chip = document.querySelector('.lang-chip');
+    const menu = document.getElementById('langMenu');
+    if(chip && !chip.contains(e.target)) menu.classList.remove('open');
+  });
+</script>
+
+</body>
+</html>
